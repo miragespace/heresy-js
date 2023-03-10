@@ -9,7 +9,7 @@ function bundle(src, name, { js = false, minify = false } = {}) {
     input: `./src/${src}.${js ? "js" : "ts"}`,
     output: [
       {
-        file: `../modules/node_modules/${src}.es6${minify ? ".min" : ""}.js`,
+        file: `../polyfill/node_modules/${src}.es6${minify ? ".min" : ""}.js`,
         format: "umd",
         name: name,
         sourcemap: true,
