@@ -1,3 +1,14 @@
+function getGlobals() {
+  if (typeof self !== "undefined") {
+    return self;
+  } else if (typeof window !== "undefined") {
+    return window;
+  } else if (typeof globalThis !== "undefined") {
+    return globalThis;
+  }
+  return undefined;
+}
+
 async function drainStream(stream: ReadableStream<any>): Promise<Uint8Array> {
   const chunks: any[] = [];
   const reader = stream.getReader();
@@ -23,3 +34,5 @@ function readArrayBufferAsText(array: ArrayBuffer) {
 }
 
 export { drainStream, readArrayBufferAsText };
+
+export const globals = getGlobals();

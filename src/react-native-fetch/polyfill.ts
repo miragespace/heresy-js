@@ -1,4 +1,4 @@
-import { globals } from "../utils";
+import { globals } from "./utils";
 import Headers from "./Headers";
 import Request from "./Request";
 import Response from "./Response";

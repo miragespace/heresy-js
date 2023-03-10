@@ -1,6 +1,18 @@
 // @ts-ignore
 import { Headers, Request, Response } from "./types.js";
-import { globals } from "../utils";
+
+function getGlobals() {
+  if (typeof self !== "undefined") {
+    return self;
+  } else if (typeof window !== "undefined") {
+    return window;
+  } else if (typeof globalThis !== "undefined") {
+    return globalThis;
+  }
+  return undefined;
+}
+
+const globals = getGlobals();
 
 const m = {
   Headers,

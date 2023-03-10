@@ -2,13 +2,13 @@ import { drainStream, readArrayBufferAsText } from "./utils";
 
 export type BodyInit = URLSearchParams | ArrayBuffer | ReadableStream | string;
 
-class Body {
-  bodyUsed: boolean = false;
-  bodyInit: BodyInit | null;
-  _mimeType: string;
+export default abstract class Body {
+  readonly bodyInit: BodyInit | null;
+  _mimeType?: string;
   _bodyText: string;
   _bodyArrayBuffer: ArrayBuffer;
   _bodyReadableStream: ReadableStream;
+  _consumed: boolean;
 
   constructor(body: BodyInit | null) {
     this.bodyInit = body;
@@ -45,10 +45,10 @@ class Body {
   }
 
   __consumed() {
-    if (this.bodyUsed) {
+    if (this._consumed) {
       return Promise.reject(new TypeError("Already read"));
     }
-    this.bodyUsed = true;
+    this._consumed = true;
   }
 
   async arrayBuffer() {
@@ -144,6 +144,8 @@ class Body {
 
     return null;
   }
-}
 
-export default Body;
+  get bodyUsed(): boolean {
+    return this._consumed;
+  }
+}

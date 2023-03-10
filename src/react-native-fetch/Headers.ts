@@ -28,10 +28,10 @@ export type HeadersInit =
   | Record<string, string>
   | [key: string, value: string][];
 
-class Headers {
+export default class Headers {
   map: Map<string, string> = new Map();
 
-  constructor(init: unknown) {
+  constructor(init?: HeadersInit) {
     if (init instanceof Headers) {
       init.forEach((value: string, name: string) => {
         this.append(name, value);
@@ -48,9 +48,11 @@ class Headers {
       return this;
     }
 
-    Object.getOwnPropertyNames(init).forEach((name) =>
-      this.append(name, (init as Record<string, string>)[name])
-    );
+    if (init) {
+      for (const name in init) {
+        this.append(name, init[name]);
+      }
+    }
   }
 
   append(name: string, value: string): void {
@@ -104,5 +106,3 @@ class Headers {
     return this.entries();
   }
 }
-
-export default Headers;

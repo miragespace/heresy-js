@@ -7,22 +7,19 @@ export interface ResponseInit {
   headers?: HeadersInit;
 }
 
-class Response {
-  readonly _body: Body;
-  readonly headers: Headers;
+export default class Response extends Body {
   readonly ok: boolean;
   readonly status: number;
   readonly statusText: string;
+  readonly headers: Headers;
   readonly url: string;
 
   constructor(body: BodyInit | null, options: ResponseInit | Response) {
+    super(body);
     this.status = options.status ?? 200;
     this.ok = this.status >= 200 && this.status < 300;
     this.statusText = options.statusText ?? "";
     this.headers = new Headers(options.headers);
-    if (body) {
-      this._body = new Body(body);
-    }
 
     if (options instanceof Response) {
       this.url = options.url;
@@ -30,38 +27,18 @@ class Response {
       this.url = "";
     }
 
-    if (!this.headers.has("content-type") && this._body._mimeType) {
-      this.headers.set("content-type", this._body._mimeType);
+    if (!this.headers.has("content-type") && this._mimeType) {
+      this.headers.set("content-type", this._mimeType);
     }
   }
 
-  get bodyUsed() {
-    return this._body.bodyUsed;
-  }
-
   clone() {
-    return new Response(this._body.bodyInit, {
+    return new Response(this.bodyInit, {
       status: this.status,
       statusText: this.statusText,
       headers: new Headers(this.headers),
       url: this.url,
     });
-  }
-
-  arrayBuffer() {
-    return this._body.arrayBuffer();
-  }
-
-  text() {
-    return this._body.text();
-  }
-
-  json() {
-    return this._body.json();
-  }
-
-  get body() {
-    return this._body.body;
   }
 
   static redirect(url: string, status: number) {
@@ -74,5 +51,3 @@ class Response {
     return new Response(null, { status: status, headers: { location: url } });
   }
 }
-
-export default Response;
