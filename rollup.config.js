@@ -34,7 +34,13 @@ function bundle(src, name, { js = false, minify = false } = {}) {
         functions: ["assert"],
         sourceMap: true,
       }),
-      minify ? terser() : undefined,
+      minify
+        ? terser({
+            mangle: false,
+            keep_classnames: true,
+            keep_fnames: true,
+          })
+        : undefined,
     ].filter(Boolean),
   };
 }
