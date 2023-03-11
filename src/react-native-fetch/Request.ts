@@ -60,4 +60,8 @@ export default class Request extends Body {
   clone() {
     return new Request(this, { body: this.bodyInit });
   }
+
+  get [Symbol.toStringTag]() {
+    return "Request";
+  }
 }

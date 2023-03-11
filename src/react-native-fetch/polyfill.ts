@@ -2,11 +2,13 @@ import { globals } from "./utils";
 import Headers from "./Headers";
 import Request from "./Request";
 import Response from "./Response";
+import FetchEvent from "./FetchEvent";
 
 const m = {
   Headers,
   Request,
   Response,
+  FetchEvent,
 };
 
 // Add classes to global scope

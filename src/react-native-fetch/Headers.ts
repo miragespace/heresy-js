@@ -120,4 +120,8 @@ export default class Headers {
   [Symbol.iterator](): IterableIterator<[string, string]> {
     return this.entries();
   }
+
+  get [Symbol.toStringTag]() {
+    return "Headers";
+  }
 }

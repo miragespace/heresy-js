@@ -41,6 +41,10 @@ export default class Response extends Body {
     });
   }
 
+  get [Symbol.toStringTag]() {
+    return "Response";
+  }
+
   static redirect(url: string, status: number) {
     const redirectStatuses = [301, 302, 303, 307, 308];
 
