@@ -14,7 +14,7 @@ export default class Request extends Body {
   readonly headers: Headers;
   readonly method: Method;
 
-  constructor(input: Request | string, options: Request | RequestInit) {
+  constructor(input: Request | string, options?: Request | RequestInit) {
     if (input instanceof Request) {
       if (input.bodyInit && input.bodyUsed) {
         throw new TypeError("Already read");
@@ -23,7 +23,7 @@ export default class Request extends Body {
 
       this.url = input.url;
       this.method = input.method;
-      this.headers = new Headers(options.headers ?? input.headers);
+      this.headers = new Headers(options?.headers ?? input.headers);
 
       if (input.bodyInit) {
         input._consumed = true;
@@ -39,11 +39,11 @@ export default class Request extends Body {
           options._consumed = true;
         }
       } else {
-        super(options.body ?? null);
+        super(options?.body ?? null);
       }
       this.url = input;
-      this.method = options.method || "GET";
-      this.headers = this.headers ?? new Headers(options.headers);
+      this.method = options?.method || "GET";
+      this.headers = this.headers ?? new Headers(options?.headers);
     }
 
     if (this.bodyInit && ["GET", "HEAD"].includes(this.method)) {

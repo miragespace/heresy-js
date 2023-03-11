@@ -14,12 +14,12 @@ export default class Response extends Body {
   readonly headers: Headers;
   readonly url: string;
 
-  constructor(body: BodyInit | null, options: ResponseInit | Response) {
+  constructor(body: BodyInit | null, options?: ResponseInit | Response) {
     super(body);
-    this.status = options.status ?? 200;
+    this.status = options?.status ?? 200;
     this.ok = this.status >= 200 && this.status < 300;
-    this.statusText = options.statusText ?? "";
-    this.headers = new Headers(options.headers);
+    this.statusText = options?.statusText ?? "";
+    this.headers = new Headers(options?.headers);
 
     if (options instanceof Response) {
       this.url = options.url;
