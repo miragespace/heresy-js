@@ -11,10 +11,12 @@ function getGlobals() {
 
 async function drainStream(stream: ReadableStream<any>): Promise<Uint8Array> {
   const chunks: any[] = [];
-  const reader = stream.getReader();
+  const reader = stream.getReader({ mode: "byob" });
+  const buffer = new ArrayBuffer(8192);
+  const view = new Uint8Array(buffer);
 
   async function readNextChunk(): Promise<any> {
-    const { done, value } = await reader.read();
+    const { done, value } = await reader.read(view);
     if (done) {
       return chunks.reduce((bytes, chunk) => [...bytes, ...chunk], []);
     }
