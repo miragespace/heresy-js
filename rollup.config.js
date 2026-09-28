@@ -16,7 +16,8 @@ function bundle(src, name, { js = false, minify = false } = {}) {
       },
     ],
     plugins: [
-      commonjs(),
+      // Avoid absolute paths in virtual entry sources for standalone polyfills.
+      commonjs({ strictRequires: "auto" }),
       typescript({
         tsconfig: "./tsconfig.json",
         declaration: false,
