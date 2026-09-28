@@ -27,7 +27,7 @@ export default abstract class Body {
     }
 
     if (ArrayBuffer.isView(body)) {
-      this._bodyArrayBuffer = body.buffer;
+      this._bodyArrayBuffer = body.buffer.slice(body.byteOffset, body.byteOffset + body.byteLength) as ArrayBuffer;
       this._mimeType = "application/octet-stream";
       return this;
     }
@@ -75,10 +75,10 @@ export default abstract class Body {
       return Promise.resolve(this._bodyArrayBuffer);
     }
 
-    const text = this._bodyText;
+    const text = this._bodyText ?? "";
     const encoder = new TextEncoder();
 
-    return encoder.encode(text);
+    return encoder.encode(text).buffer;
   }
 
   async text() {
@@ -97,7 +97,7 @@ export default abstract class Body {
       return readArrayBufferAsText(this._bodyArrayBuffer);
     }
 
-    return this._bodyText;
+    return this._bodyText ?? "";
   }
 
   async json<T>(): Promise<T> {

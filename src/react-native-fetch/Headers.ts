@@ -85,7 +85,7 @@ export default class Headers {
   }
 
   has(name: string): boolean {
-    return this.map.hasOwnProperty(normalizeName(name));
+    return Object.prototype.hasOwnProperty.call(this.map, normalizeName(name));
   }
 
   set(name: string, value: string | number): void {

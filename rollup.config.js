@@ -21,6 +21,7 @@ function bundle(src, name, { js = false, minify = false } = {}) {
         tsconfig: "./tsconfig.json",
         declaration: false,
         declarationMap: false,
+        noEmitOnError: true,
       }),
       replace({
         include: "src/**/*.ts",

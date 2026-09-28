@@ -9,27 +9,32 @@ function getGlobals() {
   return undefined;
 }
 
-async function drainStream(stream: ReadableStream<any>): Promise<Uint8Array> {
-  const chunks: any[] = [];
+async function drainStream(stream: ReadableStream<Uint8Array>): Promise<Uint8Array<ArrayBuffer>> {
+  const chunks: Uint8Array<ArrayBuffer>[] = [];
   const reader = stream.getReader({ mode: "byob" });
-  const buffer = new ArrayBuffer(8192);
-  const view = new Uint8Array(buffer);
-
-  async function readNextChunk(): Promise<any> {
-    const { done, value } = await reader.read(view);
-    if (done) {
-      return chunks.reduce((bytes, chunk) => [...bytes, ...chunk], []);
+  let length = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read(new Uint8Array(8192));
+      if (value && value.byteLength) {
+        chunks.push(value);
+        length += value.byteLength;
+      }
+      if (done) break;
     }
-    chunks.push(value);
-    return readNextChunk();
+  } finally {
+    reader.releaseLock();
   }
-
-  const bytes = await readNextChunk();
-
-  return new Uint8Array(bytes);
+  const bytes = new Uint8Array(length);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return bytes;
 }
 
-function readArrayBufferAsText(array: ArrayBuffer) {
+function readArrayBufferAsText(array: ArrayBuffer | Uint8Array<ArrayBuffer>) {
   const decoder = new TextDecoder();
 
   return decoder.decode(array);

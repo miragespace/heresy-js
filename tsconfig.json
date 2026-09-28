@@ -19,8 +19,7 @@
         "strictPropertyInitialization": false,
         "skipDefaultLibCheck": true,
         "skipLibCheck": true,
-        "moduleResolution": "node",
-        "baseUrl": ".",
+        "moduleResolution": "bundler",
         "typeRoots": [
             "./types"
         ],

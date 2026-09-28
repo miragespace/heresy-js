@@ -4,9 +4,9 @@ export function CreateArrayFromList<T extends any[]>(elements: T): T {
   return elements.slice() as T;
 }
 
-export function CopyDataBlockBytes(dest: ArrayBuffer,
+export function CopyDataBlockBytes(dest: ArrayBufferLike,
                                    destOffset: number,
-                                   src: ArrayBuffer,
+                                   src: ArrayBufferLike,
                                    srcOffset: number,
                                    n: number) {
   new Uint8Array(dest).set(new Uint8Array(src, srcOffset, n), destOffset);
