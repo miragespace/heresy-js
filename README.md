@@ -1,4 +1,6 @@
 ## This repo contains various polyfills for the heresy runtime.
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmiragespace%2Fheresy-js.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmiragespace%2Fheresy-js?ref=badge_shield)
+
 
 ---
 
@@ -17,3 +19,7 @@
 [web-streams](https://github.com/MattiasBuelens/web-streams-polyfill/)
 
 - Needed to support the Streams API in the runtime (e.g. `ReadableStream`)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fmiragespace%2Fheresy-js.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fmiragespace%2Fheresy-js?ref=badge_large)
